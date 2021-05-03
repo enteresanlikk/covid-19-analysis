@@ -1,0 +1,27 @@
+{
+  "name": "covid-19",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "convert-excel-to-json": "^1.7.0",
+    "exceljs": "^4.2.1",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "xlsx-chart": "^0.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "convert-json": "node ./src/convert-json.js",
+    "grouped-data": "node ./src/grouped-data.js",
+    "process-data": "node ./src/process-data.js",
+    "merge-data": "node ./src/merge-data.js",
+
+    "convert-excel": "node ./src/convert-excel.js",
+    "convert-chart": "node ./src/convert-chart.js",
+
+    "all": "node ./src/convert-json.js && node ./src/grouped-data.js && node ./src/process-data.js && node ./src/merge-data.js && node ./src/convert-excel.js && node ./src/convert-chart.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
