@@ -10,12 +10,11 @@ let chartType = 'line';
 	workbook.eachSheet(function (worksheet, sheetId) {
 
 		let i = 0;
-		let titles = ['Vaka Sayısı', 'İyileşenler', 'Ölüm', 'Test Sayısı'];
+		let titles = ['Vaka Sayısı', 'İyileşenler', 'Test Sayısı'];
 		let fields = [];
 		let data = {
 			'Vaka Sayısı': {},
 			'İyileşenler': {},
-			'Ölüm': {},
 			'Test Sayısı': {}
 		};
 		worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
@@ -25,11 +24,9 @@ let chartType = 'line';
 
 				data['Vaka Sayısı'] = Object.assign({}, data['Vaka Sayısı'], { [values[1]]: values[2] })
 
-				data['İyileşenler'] = Object.assign({}, data['İyileşenler'], { [values[1]]: values[4] })
+				data['İyileşenler'] = Object.assign({}, data['İyileşenler'], { [values[1]]: values[3] })
 
-				data['Ölüm'] = Object.assign({}, data['Ölüm'], { [values[1]]: values[3] })
-
-				data['Test Sayısı'] = Object.assign({}, data['Test Sayısı'], { [values[1]]: values[5] })
+				data['Test Sayısı'] = Object.assign({}, data['Test Sayısı'], { [values[1]]: values[4] })
 			}
 
 			i++;

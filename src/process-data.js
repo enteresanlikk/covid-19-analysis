@@ -36,35 +36,42 @@ const vakalar = require('./json/grouped/vakalar');
     for(let itemsKey of Object.keys(vakaArr)) {
         let items = vakaArr[itemsKey];
 
-        let monthsTmp = [];
-        let prevMonth = null;
-        let total_cases = 0;
-        let new_deaths = 0;
-        let new_tests = 0;
+        let monthsTmp1 = {};
         for(let item of items) {
-            if(prevMonth != item.month) {
-                if(prevMonth != null) {
-                    monthsTmp.push({
-                        date: f.toDateStr(item.month) + ' ' + item.year,
-                        total_cases: total_cases || 0,
-                        new_deaths: new_deaths || 0,
-                        new_tests: new_tests || 0,
-                    });
-                }
+            let date = item.date+'';
+            let splitted = date.split('-');
 
-                prevMonth = item.month;
-                total_cases = 0;
-                new_deaths = 0;
-                new_tests = 0;
+            let dateKey = f.toDateStr(+splitted[1]) + ' ' + +splitted[0];
+
+            if(!monthsTmp1[dateKey]) {
+                monthsTmp1[dateKey] = [];
             }
 
-            if(prevMonth == item.month) {
-                total_cases += item.total_cases;
-                new_deaths += item.new_deaths;
-                new_tests += item.new_tests;
-            }
+            monthsTmp1[dateKey].push({
+                date: item.date,
+                total_cases: item.total_cases || 0,
+                new_tests: item.new_tests || 0,
+            });
         }
-        newVakaArr[itemsKey] = monthsTmp;
+
+        let monthsTmp2 = [];
+        for(let item of Object.keys(monthsTmp1)) {
+            let items = monthsTmp1[item];
+
+            let total_cases = 0;
+            let new_tests = 0;
+            for(let a of items) {
+                total_cases += a.total_cases;
+                new_tests += a.new_tests;
+            }
+            monthsTmp2.push({
+                date: item,
+                total_cases: total_cases,
+                new_tests: new_tests
+            });
+        }
+
+        newVakaArr[itemsKey] = monthsTmp2;
     }
 
     await fs.writeFileSync(path.join(__dirname, 'json', 'process', 'vakalar.json'), JSON.stringify(newVakaArr,null,2));

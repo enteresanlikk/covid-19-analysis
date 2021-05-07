@@ -46,5 +46,33 @@ const abc = (list, date) => {
         retVal[key] = values;
     }
 
-    await fs.writeFileSync(path.join(__dirname, 'json', 'merged', 'all.json'), JSON.stringify(retVal,null,2));
+    let abc = {};
+    for(let key of Object.keys(retVal)) {
+        let items = retVal[key];
+        
+        let total_cases = 0;
+        let new_tests = 0;
+        let saved_count = 0;
+
+        for(let item of items) {
+            total_cases += item['total_cases'];
+            new_tests += item['new_tests'];
+            saved_count += item['saved_count'];
+        }
+
+        abc[key] = {
+            recovery_case_rate: +(saved_count / total_cases),
+            case_test_rate: +(total_cases / new_tests)
+        };
+    }
+
+    let newObj = {};
+    for(let key of Object.keys(retVal)) {
+        newObj[key] = {
+            data: retVal[key],
+            ...abc[key]
+        };
+    }
+
+    await fs.writeFileSync(path.join(__dirname, 'json', 'merged', 'all.json'), JSON.stringify(newObj,null,2));
 })()
